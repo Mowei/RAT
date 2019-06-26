@@ -1,37 +1,37 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace RAT
 {
     public class ImageForm : Form
-	{
-		private PictureBox pictureBoxTX;
+    {
+        private PictureBox pictureBoxTX;
 
-		public ImageForm()
-		{
-			InitializeComponent();
-		}
+        public ImageForm()
+        {
+            InitializeComponent();
+        }
 
-		public void SetImage(Image pic)
-		{
-			pictureBoxTX.Image = pic;
-			Show();
-			Refresh();
-		}
+        public void SetImage(Image pic)
+        {
+            pictureBoxTX.Image = pic;
+            Show();
+            Refresh();
+        }
 
-		private void ImageForm_MouseEnter(object sender, EventArgs e)
-		{
-			Cursor.Hide();
-		}
+        private void ImageForm_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor.Hide();
+        }
 
-		private void PictureBoxTX_MouseEnter(object sender, EventArgs e)
-		{
-			Cursor.Hide();
-		}
+        private void PictureBoxTX_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor.Hide();
+        }
 
-		private void InitializeComponent()
-		{
+        private void InitializeComponent()
+        {
             this.pictureBoxTX = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTX)).BeginInit();
             this.SuspendLayout();
@@ -65,6 +65,6 @@ namespace RAT
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTX)).EndInit();
             this.ResumeLayout(false);
 
-		}
-	}
+        }
+    }
 }

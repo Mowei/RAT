@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -22,8 +22,6 @@ namespace RAT
 
         private byte[] magicHeader;
 
-        private int sampleFrequency;
-
         private GroupBox groupBoxFunction;
 
         private RadioButton radioButtonReceiver;
@@ -32,14 +30,13 @@ namespace RAT
 
         private Button buttonSend;
 
-        public int DisplayImageMillis = 3000;
+        private readonly int DisplayImageMillis = 1500;
 
 
         public FormRAT()
         {
             InitializeComponent();
             magicHeader = Encoding.ASCII.GetBytes(magicString);
-            sampleFrequency = DisplayImageMillis / 2;
         }
 
         private void ButtonSend_Click(object sender, EventArgs e)
@@ -87,7 +84,7 @@ namespace RAT
 
         private void SendFile(string filename)
         {
-            //���o�ù��ؤo
+            //取得螢幕尺寸
             Rectangle bounds = Screen.FromControl(this).Bounds;
             /*
             Rectangle bounds = new Rectangle();
@@ -176,7 +173,7 @@ namespace RAT
             byte[] first = SubArray(screenFlash, 0, magicHeader.Length);
             while (!first.SequenceEqual(magicHeader))
             {
-                Thread.Sleep(sampleFrequency);
+                Thread.Sleep(DisplayImageMillis);
                 screenFlash = GetScreenFlash();
                 first = SubArray(screenFlash, 0, magicHeader.Length);
             }
@@ -188,7 +185,7 @@ namespace RAT
                     byte[] array = receivedData = receivedData.Concat(second).ToArray();
                     num = (ushort)(num + 1);
                 }
-                Thread.Sleep(sampleFrequency);
+                Thread.Sleep(DisplayImageMillis);
                 screenFlash = GetScreenFlash();
                 first = SubArray(screenFlash, 0, magicHeader.Length);
             }
@@ -250,12 +247,14 @@ namespace RAT
             return array;
         }
 
+        //抗失真1Bit用1Bytes表示
         private static byte[] Encode(byte[] input)
-             {
+        {
             byte[] array = new byte[input.Length * 8];
             int num = 0;
             for (int i = 0; i < input.Length; i++)
             {
+                //轉成二進制8位String(Ex: 01101111)
                 string text = Convert.ToString(input[i], 2).PadLeft(8, '0');
                 for (int j = 0; j < text.Length; j++)
                 {
@@ -275,22 +274,22 @@ namespace RAT
         private static byte[] Decode(byte[] input)
         {
             byte[] array = new byte[input.Length / 8];
-            int num = 0;
-            byte b = 0;
-            int num2 = 0;
+            int arraryPos = 0;
+            byte value = 0;
+            int bitpos = 0;
             for (int i = 0; i < input.Length; i++)
             {
-                b = (byte)(b << 1);
+                value = (byte)(value << 1);
                 if (input[i] > 128)
                 {
-                    b = (byte)(b + 1);
+                    value = (byte)(value + 1);
                 }
-                num2++;
-                if (num2 == 8)
+                bitpos++;
+                if (bitpos == 8)
                 {
-                    num2 = 0;
-                    array[num++] = b;
-                    b = 0;
+                    bitpos = 0;
+                    array[arraryPos++] = value;
+                    value = 0;
                 }
             }
             return array;
