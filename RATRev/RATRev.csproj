@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>WinExe</OutputType>
-    <AssemblyName>RATFull</AssemblyName>
+    <AssemblyName>RATRev</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -42,18 +42,12 @@
     <Compile Include="FormRAT.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImageForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="ScreenCapture.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormRAT.resx">
       <DependentUpon>FormRAT.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ImageForm.resx">
-      <DependentUpon>ImageForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

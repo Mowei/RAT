@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RATFull", "RATFull\RATFull.csproj", "{423EDACF-70DC-4D15-9A25-7391780A9762}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RATRev", "RATRev\RATRev.csproj", "{423EDACF-70DC-4D15-9A25-7391780A9762}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2D708BE7-875C-45D5-A3A2-E856346B8E4B}
+		SolutionGuid = {549057AE-4ED2-46A7-BE79-64F05F1BE744}
 	EndGlobalSection
 EndGlobal

